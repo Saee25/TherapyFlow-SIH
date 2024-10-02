@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Therapy Session Report</title>
+    <link rel="stylesheet" href="styles1.css">
+    <!-- Add a script to handle PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Add Chart.js for random charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="report-wrapper" id="report-content">
+        <!-- Report Header -->
+        <header class="report-header">
+            <h1>Session Report</h1>
+            <div class="header-info">
+                <div class="patient-info">
+                    <p><strong>Patient Name:</strong> John Doe</p>
+                    <p><strong>Patient ID:</strong> D-1562</p>
+                    <p><strong>Session Date:</strong> 22-2-22</p>
+                    <p><strong>Therapist:</strong> Dr.Smith</p>
+                </div>
+                <div class="patient-photo">
+                    <img src="pfp.png" alt="Patient Photo" id="patient-photo">
+                </div>
+            </div>
+        </header>
+
+        <!-- Patient History Section -->
+        <section class="patient-history">
+            <h2>Patient History</h2>
+            <p><strong>Diagnosis:</strong> Heavy tongue and salivation</p>
+            <p><strong>Therapy Start Date:</strong> 16-1-22</p>
+            <p><strong>Previous Session number:</strong> 6</p>
+        </section>
+
+        <!-- Session Summary Section -->
+        <section class="session-summary">
+            <h2>Session Overview</h2>
+            <p>
+                In this session, the patient focused on improving their pronunciation. 
+                They practiced specific words and phrases, concentrating on challenging sounds. 
+                A speech recognition tool was used to give immediate feedback on their pronunciation, 
+                highlighting areas to work on. The patient showed steady improvement as they repeated 
+                the exercises and corrected their mistakes. By the end of the session, their articulation 
+                had noticeably improved. Overall, the session was productive, and the patient remained 
+                engaged and motivated throughout. The next session will build on these gains by 
+                introducing more complex phrases.
+            </p>
+
+            <h2>Activities Conducted</h2>
+            
+                <li>Activity 1: Speech therapy Game</li>
+                <li>Activity 2: On Video Call Pronunciations</li>
+                <li>Activity 3: Article reading</li>
+            
+        </section>
+
+        <!-- Key Metrics Section -->
+        <section class="key-metrics">
+            <h2>Key Metrics</h2>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Assessment</th>
+                </tr>
+                <tr>
+                    <td>Pronunciation Accuracy</td>
+                    <td>88%</td>
+                </tr>
+                <tr>
+                    <td>Words Practiced</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>Words Mastered</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Areas of Improvement</td>
+                    <td>More practice needed in words ending with s or having multiple sss</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Visual Progress Charts Section -->
+        <section class="visual-progress">
+            <h2>Progress Overview</h2>
+            
+            <!-- New Chart 3: Speech Rate Over Time -->
+            <div class="progress-chart">
+                <p>Chart 1: Speech Rate Over Time</p>
+                <canvas id="speechRateChart"></canvas>
+            </div>
+
+            <!-- New Chart 2: Sessions Completed Over Time -->
+            <div class="progress-chart">
+                <p>Chart 2: Sessions Completed Over Time</p>
+                <canvas id="sessionsCompletedChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Next Steps Section -->
+        <section class="next-steps">
+            <h2>Next Steps</h2>
+            <p><strong>Goals for Next Session:</strong> more complex words</p>
+            <p><strong>Recommended Activities:</strong> elocution and slow oral pronounciations</p>
+        </section>
+
+<!-- Task List Button -->
+<div class="task-list-button-wrapper">
+    <button id="task-list-button">To-Do List</button>
+</div>
+
+        <!-- Footer Section -->
+        <footer class="report-footer">
+            <p><strong>Next Session Date:</strong> 25-1-22</p>
+            <p><strong>Report Prepared By:</strong> Dr.Smith</p>
+        </footer>
+    </div>
+
+    <!-- Button to Generate PDF -->
+    <div class="pdf-button-wrapper">
+        <button id="generate-pdf">Generate PDF</button>
+    </div>
+
+    <script>
+        // PDF generation function
+        document.getElementById('generate-pdf').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Convert the report content to PDF
+            doc.html(document.querySelector('#report-content'), {
+                callback: function (pdf) {
+                    pdf.save('session_report.pdf');
+                },
+                x: 10,
+                y: 10
+            });
+        });
+
+        // Chart 1: Speech Rate Over Time
+        const ctxSpeechRate = document.getElementById('speechRateChart').getContext('2d');
+        const speechRateChart = new Chart(ctxSpeechRate, {
+            type: 'line',
+            data: {
+                labels: ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5'],
+                datasets: [{
+                    label: 'Speech Rate (words per minute)',
+                    data: [100, 110, 105, 120, 130],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#000000' // Black text for x-axis
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#000000' // Black text for y-axis
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Sessions Completed Over Time
+        const ctxSessionsCompleted = document.getElementById('sessionsCompletedChart').getContext('2d');
+        const sessionsCompletedChart = new Chart(ctxSessionsCompleted, {
+            type: 'bar',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Sessions Completed',
+                    data: [2, 3, 4, 4],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#000000' // Black text for x-axis
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#000000' // Black text for y-axis
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

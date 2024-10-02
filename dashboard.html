@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supervisor Dashboard</title>
+
+    <!-- Google Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet" />
+
+    <!-- Custom Style -->
+    <style>
+      /* General layout and fonts */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #002326; /* Dark background color from the screenshot */
+        color: #e0eafc; /* Light text color */
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      aside {
+        width: 250px;
+        background-color: #002326; /* Dark background */
+        color: #ffffff; /* White text */
+        height: 100vh;
+        padding: 20px;
+        border-right: 1px solid #1e7f83; /* Border color taken from logo */
+      }
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .danger {
+        color: #29b6f6; /* Bright blue accent color from logo */
+      }
+
+      .sidebar-menu ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .sidebar-menu ul li {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar-menu ul li a {
+        text-decoration: none;
+        color: #e0eafc; /* Light text */
+        font-size: 18px;
+        margin-left: 10px;
+      }
+
+      .sidebar-menu ul li:hover {
+        background-color: #1e7f83; /* Hover color matching accent */
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .sidebar-menu ul li span {
+        color: #e0eafc; /* Light text */
+        font-size: 24px;
+      }
+
+      /* Main content */
+      main {
+        width: calc(100% - 250px);
+        padding: 20px;
+        background-color: #043840; /* Darker greenish blue */
+        color: #e0eafc; /* Light text */
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .date input {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: none;
+        background-color: #1e7f83; /* Input background matching accent */
+        color: white; /* White text */
+      }
+
+      /* Insights Cards */
+      .insights {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .insights .sales,
+      .insights .expenses,
+      .insights .income {
+        background-color: #005e66; /* Dark teal */
+        padding: 20px;
+        border-radius: 15px; /* Rounded corners */
+        width: 30%;
+        color: #ffffff; /* White text */
+      }
+
+      .material-icons-sharp {
+        font-size: 50px;
+        color: #29b6f6; /* Bright blue icon */
+      }
+
+      .middle {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .text-muted {
+        color: #cccccc; /* Muted text color */
+      }
+
+      /* Charts Container */
+      .charts-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+      }
+
+      .chart {
+        width: 30%;
+        background-color: #005e66; /* Dark teal background */
+        padding: 20px;
+        border-radius: 15px;
+        color: #e0eafc; /* Light text */
+      }
+
+      .recent-orders {
+        margin-top: 30px;
+      }
+
+      .recent-orders table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #005e66; /* Dark teal table background */
+        color: #e0eafc; /* Light text */
+      }
+
+      .recent-orders th,
+      .recent-orders td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #1e7f83; /* Light border */
+      }
+
+      /* General Styles for Responsive Design */
+      @media (max-width: 768px) {
+        main {
+          width: 100%;
+          margin-left: 0;
+        }
+
+        .insights {
+          flex-direction: column;
+        }
+
+        .charts-container {
+          flex-direction: column;
+        }
+
+        .chart,
+        .insights .sales,
+        .insights .expenses,
+        .insights .income {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <h2>Therapy<span class="danger">Flow</span></h2>
+          </div>
+
+          <!-- Sidebar Menu -->
+          <div class="sidebar-menu">
+            <ul>
+              <li>
+                <span class="material-icons-sharp"> home </span>
+                <a href="index.html">Home</a>
+              </li>
+              <li>
+                <span class="material-icons-sharp"> dashboard </span>
+                <a href="dashboard.html">Dashboard</a>
+              </li>
+              <li>
+                <span class="material-icons-sharp"> event </span>
+                <a href="appointment.html">Appointment</a>
+              </li>
+              <li>
+                <span class="material-icons-sharp"> account_circle </span>
+                <a href="#">Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <main>
+        <h1>Supervisor Dashboard</h1>
+
+        <div class="date">
+          <input type="date" />
+        </div>
+
+        <div class="insights">
+          <!-- Patients -->
+          <div class="sales">
+            <span class="material-icons-sharp"> analytics </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Patients</h3>
+                <h1>25</h1>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+
+          <!-- Therapists -->
+          <div class="expenses">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Therapists</h3>
+                <h1>45</h1>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+
+          <!-- Sessions -->
+          <div class="income">
+            <span class="material-icons-sharp"> stacked_line_chart </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Sessions</h3>
+                <h1>10</h1>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+        </div>
+
+        <div class="charts-container">
+          <h2>Progress Overview</h2>
+        </div>
+
+        <div class="charts-container">
+          <div class="chart">
+            <canvas id="patientsChart"></canvas>
+          </div>
+          <div class="chart">
+            <canvas id="therapistsChart"></canvas>
+          </div>
+          <div class="chart">
+            <canvas id="sessionsChart"></canvas>
+          </div>
+        </div>
+
+        <div class="recent-orders">
+          <h2>Recent Sessions</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Therapist Name</th>
+                <th>Session Time</th>
+                <th>Status</th>
+                <th>Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>John Doe</td>
+                <td>Dr. Smith</td>
+                <td>10:00 AM</td>
+                <td>Completed</td>
+                <td>
+                  <a href="Report1.html">
+                    <img src="report.png" style="width: 20px;" />
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Jane Roe</td>
+                <td>Dr. Brown</td>
+                <td>11:30 AM</td>
+                <td>Upcoming</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="#">Show All</a>
+        </div>
+      </main>
+    </div>
+
+    <!-- Chart Script -->
+    <script>
+      const ctxPatients = document.getElementById("patientsChart").getContext("2d");
+      const patientsChart = new Chart(ctxPatients, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [
+            {
+              label: "Patients",
+              data: [12, 19, 3, 5, 2, 3, 9],
+              backgroundColor: "#29b6f6", /* Color matching logo accent */
+              borderColor: "#1e7f83", /* Border color */
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: "#ffffff", /* Change X-axis labels to white */
+              },
+            },
+            y: {
+              ticks: {
+                color: "#ffffff", /* Change Y-axis labels to white */
+              },
+            },
+          },
+        },
+      });
+    
+      const ctxTherapists = document.getElementById("therapistsChart").getContext("2d");
+      const therapistsChart = new Chart(ctxTherapists, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [
+            {
+              label: "Therapists",
+              data: [20, 15, 23, 11, 18, 9, 7],
+              backgroundColor: "#29b6f6", /* Color matching logo accent */
+              borderColor: "#1e7f83", /* Border color */
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: "#ffffff", /* Change X-axis labels to white */
+              },
+            },
+            y: {
+              ticks: {
+                color: "#ffffff", /* Change Y-axis labels to white */
+              },
+            },
+          },
+        },
+      });
+    
+      const ctxSessions = document.getElementById("sessionsChart").getContext("2d");
+      const sessionsChart = new Chart(ctxSessions, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [
+            {
+              label: "Sessions",
+              data: [5, 6, 8, 3, 5, 9, 4],
+              backgroundColor: "#29b6f6", /* Color matching logo accent */
+              borderColor: "#1e7f83", /* Border color */
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: "#ffffff", /* Change X-axis labels to white */
+              },
+            },
+            y: {
+              ticks: {
+                color: "#ffffff", /* Change Y-axis labels to white */
+              },
+            },
+          },
+        },
+      });
+    </script>
+    
